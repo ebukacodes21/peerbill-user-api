@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PeerbillUserClient interface {
-	GetRates(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[RateRequest, RateResponse], error)
+	GetRates(ctx context.Context, in *RateRequest, opts ...grpc.CallOption) (*RateResponse, error)
 }
 
 type peerbillUserClient struct {
@@ -37,24 +37,21 @@ func NewPeerbillUserClient(cc grpc.ClientConnInterface) PeerbillUserClient {
 	return &peerbillUserClient{cc}
 }
 
-func (c *peerbillUserClient) GetRates(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[RateRequest, RateResponse], error) {
+func (c *peerbillUserClient) GetRates(ctx context.Context, in *RateRequest, opts ...grpc.CallOption) (*RateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &PeerbillUser_ServiceDesc.Streams[0], PeerbillUser_GetRates_FullMethodName, cOpts...)
+	out := new(RateResponse)
+	err := c.cc.Invoke(ctx, PeerbillUser_GetRates_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[RateRequest, RateResponse]{ClientStream: stream}
-	return x, nil
+	return out, nil
 }
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type PeerbillUser_GetRatesClient = grpc.BidiStreamingClient[RateRequest, RateResponse]
 
 // PeerbillUserServer is the server API for PeerbillUser service.
 // All implementations must embed UnimplementedPeerbillUserServer
 // for forward compatibility.
 type PeerbillUserServer interface {
-	GetRates(grpc.BidiStreamingServer[RateRequest, RateResponse]) error
+	GetRates(context.Context, *RateRequest) (*RateResponse, error)
 	mustEmbedUnimplementedPeerbillUserServer()
 }
 
@@ -65,8 +62,8 @@ type PeerbillUserServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPeerbillUserServer struct{}
 
-func (UnimplementedPeerbillUserServer) GetRates(grpc.BidiStreamingServer[RateRequest, RateResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method GetRates not implemented")
+func (UnimplementedPeerbillUserServer) GetRates(context.Context, *RateRequest) (*RateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRates not implemented")
 }
 func (UnimplementedPeerbillUserServer) mustEmbedUnimplementedPeerbillUserServer() {}
 func (UnimplementedPeerbillUserServer) testEmbeddedByValue()                      {}
@@ -89,12 +86,23 @@ func RegisterPeerbillUserServer(s grpc.ServiceRegistrar, srv PeerbillUserServer)
 	s.RegisterService(&PeerbillUser_ServiceDesc, srv)
 }
 
-func _PeerbillUser_GetRates_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(PeerbillUserServer).GetRates(&grpc.GenericServerStream[RateRequest, RateResponse]{ServerStream: stream})
+func _PeerbillUser_GetRates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeerbillUserServer).GetRates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PeerbillUser_GetRates_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeerbillUserServer).GetRates(ctx, req.(*RateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type PeerbillUser_GetRatesServer = grpc.BidiStreamingServer[RateRequest, RateResponse]
 
 // PeerbillUser_ServiceDesc is the grpc.ServiceDesc for PeerbillUser service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -102,14 +110,12 @@ type PeerbillUser_GetRatesServer = grpc.BidiStreamingServer[RateRequest, RateRes
 var PeerbillUser_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.PeerbillUser",
 	HandlerType: (*PeerbillUserServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
+	Methods: []grpc.MethodDesc{
 		{
-			StreamName:    "GetRates",
-			Handler:       _PeerbillUser_GetRates_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
+			MethodName: "GetRates",
+			Handler:    _PeerbillUser_GetRates_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "peerbill_user.proto",
 }

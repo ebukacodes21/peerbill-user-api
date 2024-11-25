@@ -2,10 +2,34 @@ syntax = "proto3";
 
 package pb;
 
+import "google/api/annotations.proto";
 import "rates.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "peerbill-user-api/pb";
 
+// for swagger documentation
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+      title: "Peerbill User"
+      version: "1.0"
+      contact: {
+        name: "Peerbill user"
+        url: ""
+        email: "peerbillofficial@gmail.com"
+      }
+    }
+};
+
 service PeerbillUser {
-    rpc GetRates (stream RateRequest) returns (stream RateResponse) {}
+    rpc GetRates (RateRequest) returns (RateResponse) {
+        option (google.api.http) = {
+            post: "/api/get-rates"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to fetch Crypto/Fiat rates";
+            summary: "Fetch Crypto/Fiat rates";
+        };
+    }
 }

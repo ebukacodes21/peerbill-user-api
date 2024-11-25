@@ -1,0 +1,108 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Peerbill User",
+    "version": "1.0",
+    "contact": {
+      "name": "Peerbill user",
+      "email": "peerbillofficial@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "PeerbillUser"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/get-rates": {
+      "post": {
+        "summary": "Fetch Crypto/Fiat rates",
+        "description": "Use this API to fetch Crypto/Fiat rates",
+        "operationId": "PeerbillUser_GetRates",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PeerbillUser"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbRateRequest": {
+      "type": "object",
+      "properties": {
+        "fiat": {
+          "type": "string"
+        },
+        "crypto": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRateResponse": {
+      "type": "object",
+      "properties": {
+        "rate": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
