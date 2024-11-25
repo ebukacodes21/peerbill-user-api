@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package pb;
+
+import "rates.proto";
+
+option go_package = "peerbill-user-api/pb";
+
+service PeerbillUser {
+    rpc GetRates (stream RateRequest) returns (stream RateResponse) {}
+}
