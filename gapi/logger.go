@@ -19,7 +19,7 @@ import (
 * of the grpc UnaryInteceptor
  */
 
-func Logger(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+func GrpcLogger(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 	// time it took the request to process
 	startTime := time.Now()
 	result, err := handler(ctx, req)
@@ -53,7 +53,7 @@ type ResponseRecorder struct {
 	body       []byte
 }
 
-// http logger for the Grpc Gateway
+// http logger for the Gateway
 func (rr *ResponseRecorder) WriteHeader(statusCode int) {
 	rr.statusCode = statusCode
 	rr.ResponseWriter.WriteHeader(statusCode)
@@ -66,7 +66,7 @@ func (rr *ResponseRecorder) Write(body []byte) (int, error) {
 
 func HttpLogger(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
+		// calculate time it took to process request
 		startTime := time.Now()
 		wr := &ResponseRecorder{ResponseWriter: w, statusCode: http.StatusOK}
 		handler.ServeHTTP(wr, r)
@@ -82,6 +82,6 @@ func HttpLogger(handler http.Handler) http.Handler {
 			Str("path", r.RequestURI).
 			Int("status_code", wr.statusCode).
 			Dur("duration", duration).
-			Msg("recieved request")
+			Msg("received request")
 	})
 }

@@ -3,7 +3,9 @@ syntax = "proto3";
 package pb;
 
 import "google/api/annotations.proto";
-import "rates.proto";
+import "airtime.proto";
+import "data_bundle.proto";
+import "rate.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "peerbill-user-api/pb";
@@ -28,8 +30,28 @@ service PeerbillUser {
             body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            description: "Use this API to fetch Crypto/Fiat rates";
-            summary: "Fetch Crypto/Fiat rates";
+            description: "Use this API to get Crypto/Fiat rates";
+            summary: "Get Crypto/Fiat rates";
+        };
+    }
+    rpc GetDataPlans (DataLookupRequest) returns (DataLookupResponse) {
+        option (google.api.http) = {
+            post: "/api/get-dataplans"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get Data Plans for specified network";
+            summary: "Get Data Plans for specified network";
+        };
+    }
+    rpc BuyAirtime (AirtimeRequest) returns (AirtimeResponse) {
+        option (google.api.http) = {
+            post: "/api/buy-airtime"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to purchase airtime";
+            summary: "purchase airtime";
         };
     }
 }

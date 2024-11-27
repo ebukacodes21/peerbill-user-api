@@ -47,9 +47,10 @@ func main() {
 	group, ctx := errgroup.WithContext(ctx)
 
 	/**
-	* start the grpc server
+	* start the grpc, gateway servers
 	 */
 	servers.StartGrpcServer(group, ctx, config)
+	servers.StartGrpcGateway(group, ctx, config)
 
 	// wait for all methods to return before exiting the main func
 	err = group.Wait()
