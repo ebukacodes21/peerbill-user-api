@@ -20,10 +20,78 @@
     "application/json"
   ],
   "paths": {
+    "/api/buy-airtime": {
+      "post": {
+        "summary": "purchase airtime",
+        "description": "Use this API to purchase airtime",
+        "operationId": "PeerbillUser_BuyAirtime",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbAirtimeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbAirtimeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PeerbillUser"
+        ]
+      }
+    },
+    "/api/get-dataplans": {
+      "post": {
+        "summary": "Get Data Plans for specified network",
+        "description": "Use this API to get Data Plans for specified network",
+        "operationId": "PeerbillUser_GetDataPlans",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbDataLookupResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbDataLookupRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PeerbillUser"
+        ]
+      }
+    },
     "/api/get-rates": {
       "post": {
-        "summary": "Fetch Crypto/Fiat rates",
-        "description": "Use this API to fetch Crypto/Fiat rates",
+        "summary": "Get Crypto/Fiat rates",
+        "description": "Use this API to get Crypto/Fiat rates",
         "operationId": "PeerbillUser_GetRates",
         "responses": {
           "200": {
@@ -56,6 +124,107 @@
     }
   },
   "definitions": {
+    "pbAirtimeRequest": {
+      "type": "object",
+      "properties": {
+        "network": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "pbAirtimeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDataLookupRequest": {
+      "type": "object",
+      "properties": {
+        "network": {
+          "type": "string"
+        }
+      }
+    },
+    "pbDataLookupResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "message": {
+          "$ref": "#/definitions/pbMessageDetails"
+        },
+        "statusCode": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "pbMessageDetails": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbNetworkDetails"
+          }
+        }
+      }
+    },
+    "pbNetworkDetails": {
+      "type": "object",
+      "properties": {
+        "networkName": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "networkCode": {
+          "type": "string"
+        },
+        "checkBalance": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "plans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbPlan"
+          }
+        }
+      }
+    },
+    "pbPlan": {
+      "type": "object",
+      "properties": {
+        "planCode": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        }
+      }
+    },
     "pbRateRequest": {
       "type": "object",
       "properties": {

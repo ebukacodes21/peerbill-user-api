@@ -30,7 +30,7 @@ func StartGrpcServer(group *errgroup.Group, ctx context.Context, config config.C
 	server := gapi.NewGServer(config)
 
 	// logger for tracking requests sent to the server
-	options := grpc.UnaryInterceptor(gapi.Logger)
+	options := grpc.UnaryInterceptor(gapi.GrpcLogger)
 
 	// create a new grpc server and register with own implementation
 	gServer := grpc.NewServer(options)
