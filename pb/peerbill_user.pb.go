@@ -11,7 +11,6 @@ import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	pb "peerbill-trader-api/pb"
 	reflect "reflect"
 )
 
@@ -99,16 +98,16 @@ var file_peerbill_user_proto_rawDesc = []byte{
 }
 
 var file_peerbill_user_proto_goTypes = []any{
-	(*RateRequest)(nil),            // 0: pb.RateRequest
-	(*DataLookupRequest)(nil),      // 1: pb.DataLookupRequest
-	(*AirtimeRequest)(nil),         // 2: pb.AirtimeRequest
-	(*GenWalletRequest)(nil),       // 3: pb.GenWalletRequest
-	(*pb.MadePaymentRequest)(nil),  // 4: pb.MadePaymentRequest
-	(*RateResponse)(nil),           // 5: pb.RateResponse
-	(*DataLookupResponse)(nil),     // 6: pb.DataLookupResponse
-	(*AirtimeResponse)(nil),        // 7: pb.AirtimeResponse
-	(*GenWalletResponse)(nil),      // 8: pb.GenWalletResponse
-	(*pb.MadePaymentResponse)(nil), // 9: pb.MadePaymentResponse
+	(*RateRequest)(nil),         // 0: pb.RateRequest
+	(*DataLookupRequest)(nil),   // 1: pb.DataLookupRequest
+	(*AirtimeRequest)(nil),      // 2: pb.AirtimeRequest
+	(*GenWalletRequest)(nil),    // 3: pb.GenWalletRequest
+	(*MadePaymentRequest)(nil),  // 4: pb.MadePaymentRequest
+	(*RateResponse)(nil),        // 5: pb.RateResponse
+	(*DataLookupResponse)(nil),  // 6: pb.DataLookupResponse
+	(*AirtimeResponse)(nil),     // 7: pb.AirtimeResponse
+	(*GenWalletResponse)(nil),   // 8: pb.GenWalletResponse
+	(*MadePaymentResponse)(nil), // 9: pb.MadePaymentResponse
 }
 var file_peerbill_user_proto_depIdxs = []int32{
 	0, // 0: pb.PeerbillUser.GetRates:input_type -> pb.RateRequest
@@ -137,6 +136,7 @@ func file_peerbill_user_proto_init() {
 	file_data_bundle_proto_init()
 	file_rate_proto_init()
 	file_rpc_gen_wallet_proto_init()
+	file_rpc_made_payment_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

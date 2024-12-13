@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	pb "peerbill-trader-api/pb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -35,7 +34,7 @@ type PeerbillUserClient interface {
 	GetDataPlans(ctx context.Context, in *DataLookupRequest, opts ...grpc.CallOption) (*DataLookupResponse, error)
 	BuyAirtime(ctx context.Context, in *AirtimeRequest, opts ...grpc.CallOption) (*AirtimeResponse, error)
 	GenWallet(ctx context.Context, in *GenWalletRequest, opts ...grpc.CallOption) (*GenWalletResponse, error)
-	MadePayment(ctx context.Context, in *pb.MadePaymentRequest, opts ...grpc.CallOption) (*pb.MadePaymentResponse, error)
+	MadePayment(ctx context.Context, in *MadePaymentRequest, opts ...grpc.CallOption) (*MadePaymentResponse, error)
 }
 
 type peerbillUserClient struct {
@@ -86,9 +85,9 @@ func (c *peerbillUserClient) GenWallet(ctx context.Context, in *GenWalletRequest
 	return out, nil
 }
 
-func (c *peerbillUserClient) MadePayment(ctx context.Context, in *pb.MadePaymentRequest, opts ...grpc.CallOption) (*pb.MadePaymentResponse, error) {
+func (c *peerbillUserClient) MadePayment(ctx context.Context, in *MadePaymentRequest, opts ...grpc.CallOption) (*MadePaymentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(pb.MadePaymentResponse)
+	out := new(MadePaymentResponse)
 	err := c.cc.Invoke(ctx, PeerbillUser_MadePayment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -104,7 +103,7 @@ type PeerbillUserServer interface {
 	GetDataPlans(context.Context, *DataLookupRequest) (*DataLookupResponse, error)
 	BuyAirtime(context.Context, *AirtimeRequest) (*AirtimeResponse, error)
 	GenWallet(context.Context, *GenWalletRequest) (*GenWalletResponse, error)
-	MadePayment(context.Context, *pb.MadePaymentRequest) (*pb.MadePaymentResponse, error)
+	MadePayment(context.Context, *MadePaymentRequest) (*MadePaymentResponse, error)
 	mustEmbedUnimplementedPeerbillUserServer()
 }
 
@@ -127,7 +126,7 @@ func (UnimplementedPeerbillUserServer) BuyAirtime(context.Context, *AirtimeReque
 func (UnimplementedPeerbillUserServer) GenWallet(context.Context, *GenWalletRequest) (*GenWalletResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenWallet not implemented")
 }
-func (UnimplementedPeerbillUserServer) MadePayment(context.Context, *pb.MadePaymentRequest) (*pb.MadePaymentResponse, error) {
+func (UnimplementedPeerbillUserServer) MadePayment(context.Context, *MadePaymentRequest) (*MadePaymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MadePayment not implemented")
 }
 func (UnimplementedPeerbillUserServer) mustEmbedUnimplementedPeerbillUserServer() {}
@@ -224,7 +223,7 @@ func _PeerbillUser_GenWallet_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _PeerbillUser_MadePayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(pb.MadePaymentRequest)
+	in := new(MadePaymentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -236,7 +235,7 @@ func _PeerbillUser_MadePayment_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: PeerbillUser_MadePayment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeerbillUserServer).MadePayment(ctx, req.(*pb.MadePaymentRequest))
+		return srv.(PeerbillUserServer).MadePayment(ctx, req.(*MadePaymentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

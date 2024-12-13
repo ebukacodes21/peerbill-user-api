@@ -12,7 +12,6 @@ import (
 	"context"
 	"io"
 	"net/http"
-	pb_0 "peerbill-trader-api/pb"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/utilities"
@@ -137,7 +136,7 @@ func local_request_PeerbillUser_GenWallet_0(ctx context.Context, marshaler runti
 }
 
 func request_PeerbillUser_MadePayment_0(ctx context.Context, marshaler runtime.Marshaler, client PeerbillUserClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq pb_0.MadePaymentRequest
+	var protoReq MadePaymentRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
@@ -150,7 +149,7 @@ func request_PeerbillUser_MadePayment_0(ctx context.Context, marshaler runtime.M
 }
 
 func local_request_PeerbillUser_MadePayment_0(ctx context.Context, marshaler runtime.Marshaler, server PeerbillUserServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq pb_0.MadePaymentRequest
+	var protoReq MadePaymentRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
