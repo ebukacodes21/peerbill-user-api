@@ -1,3 +1,20 @@
+DB_SOURCE=postgresql://user:rocketman1@localhost:5432/peerbill_user?sslmode=disable
+
+generate:
+	sqlc generate
+
+start:
+	sqlc init
+
+init:
+	docker run -it --rm --network host --volume "/Users/george/workspace/github.com/ebukacodes21/peerbill-user-api/db:/db" migrate/migrate:v4.17.0 create -ext sql -dir /db/migrations $(name)
+
+migrateup:
+	docker run -it --rm --network host --volume ./db:/db migrate/migrate:v4.17.0 -path=/db/migrations -database "$(DB_SOURCE)" -verbose up
+
+migratedown:
+	docker run -it --rm --network host --volume ./db:/db migrate/migrate:v4.17.0 -path=/db/migrations -database "$(DB_SOURCE)" -verbose down
+
 proto:
 	rm -f pb/*.go
 	rm -f doc/swagger/*swagger.json
@@ -9,7 +26,7 @@ proto:
 	statik -src=./doc/swagger -dest=./doc
 
 evans:
-	docker run --rm -it -v "/Users/george/workspace/peerbill-user-api:/mount:ro" \
+	docker run --rm -it -v "/Users/george/workspace/github.com/ebukacodes21/peerbill-user-api:/mount:ro" \
     ghcr.io/ktr0731/evans:latest \
     --path /mount/proto/ \
     --proto peerbill_user.proto \
@@ -20,4 +37,4 @@ evans:
 server:
 	go run main.go
 
-.PHONY: proto server evans
+.PHONY: proto server evans start generate migrateup migratedown
