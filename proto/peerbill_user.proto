@@ -6,9 +6,11 @@ import "google/api/annotations.proto";
 import "airtime.proto";
 import "data_bundle.proto";
 import "rate.proto";
+import "rpc_gen_wallet.proto";
+import "rpc_made_payment.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
-option go_package = "peerbill-user-api/pb";
+option go_package = "github.com/ebukacodes21/peerbill-user-api/pb";
 
 // for swagger documentation
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
@@ -51,7 +53,27 @@ service PeerbillUser {
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to purchase airtime";
-            summary: "purchase airtime";
+            summary: "Purchase airtime";
+        };
+    }
+    rpc GenWallet (GenWalletRequest) returns (GenWalletResponse) {
+        option (google.api.http) = {
+            post: "/api/gen-wallet"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to generate escrow wallet";
+            summary: "Generate escrow wallet";
+        };
+    }
+    rpc MadePayment (MadePaymentRequest) returns (MadePaymentResponse) {
+        option (google.api.http) = {
+            post: "/api/made-payment"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to complete trade orders";
+            summary: "Complete trade orders";
         };
     }
 }

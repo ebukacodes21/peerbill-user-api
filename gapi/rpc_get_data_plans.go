@@ -2,8 +2,9 @@ package gapi
 
 import (
 	"context"
-	"peerbill-user-api/pb"
-	// "peerbill-user-api/validation"
+
+	"github.com/ebukacodes21/peerbill-user-api/pb"
+	// "github.com/ebukacodes21/peerbill-user-api/validation"
 	// "google.golang.org/genproto/googleapis/rpc/errdetails"
 )
 

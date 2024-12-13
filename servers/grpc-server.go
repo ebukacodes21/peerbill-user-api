@@ -4,9 +4,11 @@ import (
 	"context"
 	"log"
 	"net"
-	"peerbill-user-api/config"
-	"peerbill-user-api/gapi"
-	"peerbill-user-api/pb"
+
+	"github.com/ebukacodes21/peerbill-user-api/config"
+	db "github.com/ebukacodes21/peerbill-user-api/db/sqlc"
+	"github.com/ebukacodes21/peerbill-user-api/gapi"
+	"github.com/ebukacodes21/peerbill-user-api/pb"
 
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
@@ -25,9 +27,9 @@ import (
  * 6. Starts a second goroutine to listen for shutdown signals from the provided context (`ctx`),
  *    gracefully shutting down the server when the context is done.
  */
-func StartGrpcServer(group *errgroup.Group, ctx context.Context, config config.Config) {
+func StartGrpcServer(group *errgroup.Group, ctx context.Context, config config.Config, repository db.DatabaseContract) {
 	// an implementation of the PeerbillUserServer
-	server := gapi.NewGServer(config)
+	server := gapi.NewGServer(config, repository)
 
 	// logger for tracking requests sent to the server
 	options := grpc.UnaryInterceptor(gapi.GrpcLogger)

@@ -2,13 +2,17 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"os"
 	"os/signal"
-	"peerbill-user-api/config"
-	"peerbill-user-api/servers"
 	"syscall"
 
+	"github.com/ebukacodes21/peerbill-user-api/config"
+	db "github.com/ebukacodes21/peerbill-user-api/db/sqlc"
+	"github.com/ebukacodes21/peerbill-user-api/servers"
+
+	_ "github.com/lib/pq"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -25,6 +29,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	repository := db.NewRepository(conn)
 
 	/**
 	 * NotifyContext of the signal package listens for
@@ -49,8 +60,9 @@ func main() {
 	/**
 	* start the grpc, gateway servers
 	 */
-	servers.StartGrpcServer(group, ctx, config)
-	servers.StartGrpcGateway(group, ctx, config)
+	servers.RunDBMigration(config.MigrationURL, config.DBSource)
+	servers.StartGrpcServer(group, ctx, config, repository)
+	servers.StartGrpcGateway(group, ctx, config, repository)
 
 	// wait for all methods to return before exiting the main func
 	err = group.Wait()

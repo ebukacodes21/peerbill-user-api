@@ -11,10 +11,11 @@ import (
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	"peerbill-user-api/config"
-	_ "peerbill-user-api/doc/statik"
-	"peerbill-user-api/gapi"
-	"peerbill-user-api/pb"
+	"github.com/ebukacodes21/peerbill-user-api/config"
+	db "github.com/ebukacodes21/peerbill-user-api/db/sqlc"
+	_ "github.com/ebukacodes21/peerbill-user-api/doc/statik"
+	"github.com/ebukacodes21/peerbill-user-api/gapi"
+	"github.com/ebukacodes21/peerbill-user-api/pb"
 )
 
 /**
@@ -22,9 +23,9 @@ import (
 * The RegisterPeerbillUserHandlerServer is important as it used to register
 * the server and a gateway
  */
-func StartGrpcGateway(group *errgroup.Group, ctx context.Context, config config.Config) {
+func StartGrpcGateway(group *errgroup.Group, ctx context.Context, config config.Config, repository db.DatabaseContract) {
 	// an implementation of the PeerbillUserServer
-	server := gapi.NewGServer(config)
+	server := gapi.NewGServer(config, repository)
 
 	// marshaler options to pass into the grpc mux handler
 	options := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
