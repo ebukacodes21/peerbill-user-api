@@ -3,7 +3,7 @@ module github.com/ebukacodes21/peerbill-user-api
 go 1.23.2
 
 require (
-	github.com/ebukacodes21/peerbill-trader-api v0.0.0-20241213143905-568bdf04cf0e
+	github.com/ebukacodes21/peerbill-trader-api v0.0.0-20241215161818-a577e2b3e2ec
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.24.0
 	golang.org/x/crypto v0.29.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20241118233622-e639e219e697

@@ -26,7 +26,7 @@ proto:
 	statik -src=./doc/swagger -dest=./doc
 
 evans:
-	docker run --rm -it -v "/Users/george/workspace/github.com/ebukacodes21/peerbill-user-api:/mount:ro" \
+	docker run --rm -it -v "/Users/george/workspace/peerbill-user-api:/mount:ro" \
     ghcr.io/ktr0731/evans:latest \
     --path /mount/proto/ \
     --proto peerbill_user.proto \
