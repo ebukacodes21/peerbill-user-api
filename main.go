@@ -10,6 +10,7 @@ import (
 
 	"github.com/ebukacodes21/peerbill-user-api/config"
 	db "github.com/ebukacodes21/peerbill-user-api/db/sqlc"
+	"github.com/ebukacodes21/peerbill-user-api/gapi"
 	"github.com/ebukacodes21/peerbill-user-api/servers"
 
 	_ "github.com/lib/pq"
@@ -36,6 +37,7 @@ func main() {
 	}
 
 	repository := db.NewRepository(conn)
+	server := gapi.NewGServer(config, repository)
 
 	/**
 	 * NotifyContext of the signal package listens for
@@ -63,6 +65,7 @@ func main() {
 	servers.RunDBMigration(config.MigrationURL, config.DBSource)
 	servers.StartGrpcServer(group, ctx, config, repository)
 	servers.StartGrpcGateway(group, ctx, config, repository)
+	servers.RunWebSocket(group, ctx, config, *server)
 
 	// wait for all methods to return before exiting the main func
 	err = group.Wait()
