@@ -8,6 +8,7 @@ import "data_bundle.proto";
 import "rate.proto";
 import "rpc_gen_wallet.proto";
 import "rpc_made_payment.proto";
+import "rpc_update_order.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "github.com/ebukacodes21/peerbill-user-api/pb";
@@ -74,6 +75,16 @@ service PeerbillUser {
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
             description: "Use this API to complete trade orders";
             summary: "Complete trade orders";
+        };
+    }
+    rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderResponse) {
+        option (google.api.http) = {
+            post: "/api/update-order"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to update orders";
+            summary: "Update orders";
         };
     }
 }

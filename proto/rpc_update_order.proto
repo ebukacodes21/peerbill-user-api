@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/ebukacodes21/peerbill-user-api/pb";
+
+message UpdateOrderRequest {
+    int64 id = 1;
+    string username = 2;
+    string order_type = 3;
+    string bank_name = 4;
+    string account_number = 5;
+    string account_holder = 6;
+}
+
+message UpdateOrderResponse {
+    string message = 1;
+}

@@ -24,6 +24,7 @@ const (
 	PeerbillUser_BuyAirtime_FullMethodName   = "/pb.PeerbillUser/BuyAirtime"
 	PeerbillUser_GenWallet_FullMethodName    = "/pb.PeerbillUser/GenWallet"
 	PeerbillUser_MadePayment_FullMethodName  = "/pb.PeerbillUser/MadePayment"
+	PeerbillUser_UpdateOrder_FullMethodName  = "/pb.PeerbillUser/UpdateOrder"
 )
 
 // PeerbillUserClient is the client API for PeerbillUser service.
@@ -35,6 +36,7 @@ type PeerbillUserClient interface {
 	BuyAirtime(ctx context.Context, in *AirtimeRequest, opts ...grpc.CallOption) (*AirtimeResponse, error)
 	GenWallet(ctx context.Context, in *GenWalletRequest, opts ...grpc.CallOption) (*GenWalletResponse, error)
 	MadePayment(ctx context.Context, in *MadePaymentRequest, opts ...grpc.CallOption) (*MadePaymentResponse, error)
+	UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*UpdateOrderResponse, error)
 }
 
 type peerbillUserClient struct {
@@ -95,6 +97,16 @@ func (c *peerbillUserClient) MadePayment(ctx context.Context, in *MadePaymentReq
 	return out, nil
 }
 
+func (c *peerbillUserClient) UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*UpdateOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateOrderResponse)
+	err := c.cc.Invoke(ctx, PeerbillUser_UpdateOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PeerbillUserServer is the server API for PeerbillUser service.
 // All implementations must embed UnimplementedPeerbillUserServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type PeerbillUserServer interface {
 	BuyAirtime(context.Context, *AirtimeRequest) (*AirtimeResponse, error)
 	GenWallet(context.Context, *GenWalletRequest) (*GenWalletResponse, error)
 	MadePayment(context.Context, *MadePaymentRequest) (*MadePaymentResponse, error)
+	UpdateOrder(context.Context, *UpdateOrderRequest) (*UpdateOrderResponse, error)
 	mustEmbedUnimplementedPeerbillUserServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedPeerbillUserServer) GenWallet(context.Context, *GenWalletRequ
 }
 func (UnimplementedPeerbillUserServer) MadePayment(context.Context, *MadePaymentRequest) (*MadePaymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MadePayment not implemented")
+}
+func (UnimplementedPeerbillUserServer) UpdateOrder(context.Context, *UpdateOrderRequest) (*UpdateOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrder not implemented")
 }
 func (UnimplementedPeerbillUserServer) mustEmbedUnimplementedPeerbillUserServer() {}
 func (UnimplementedPeerbillUserServer) testEmbeddedByValue()                      {}
@@ -240,6 +256,24 @@ func _PeerbillUser_MadePayment_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PeerbillUser_UpdateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PeerbillUserServer).UpdateOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PeerbillUser_UpdateOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PeerbillUserServer).UpdateOrder(ctx, req.(*UpdateOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PeerbillUser_ServiceDesc is the grpc.ServiceDesc for PeerbillUser service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var PeerbillUser_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MadePayment",
 			Handler:    _PeerbillUser_MadePayment_Handler,
+		},
+		{
+			MethodName: "UpdateOrder",
+			Handler:    _PeerbillUser_UpdateOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
