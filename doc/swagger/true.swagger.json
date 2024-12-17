@@ -189,6 +189,40 @@
           "PeerbillUser"
         ]
       }
+    },
+    "/api/update-order": {
+      "post": {
+        "summary": "Update orders",
+        "description": "Use this API to update orders",
+        "operationId": "PeerbillUser_UpdateOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbUpdateOrderResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbUpdateOrderRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PeerbillUser"
+        ]
+      }
     }
   },
   "definitions": {
@@ -355,6 +389,38 @@
         "rate": {
           "type": "number",
           "format": "float"
+        }
+      }
+    },
+    "pbUpdateOrderRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "orderType": {
+          "type": "string"
+        },
+        "bankName": {
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "accountHolder": {
+          "type": "string"
+        }
+      }
+    },
+    "pbUpdateOrderResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
         }
       }
     },

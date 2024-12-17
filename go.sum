@@ -57,8 +57,8 @@ github.com/docker/go-connections v0.5.0 h1:USnMq7hx7gwdVZq1L49hLXaFtUdTADjXGp+uj
 github.com/docker/go-connections v0.5.0/go.mod h1:ov60Kzw0kKElRwhNs9UlUHAE/F9Fe6GLaXnqyDdmEXc=
 github.com/docker/go-units v0.5.0 h1:69rxXcBk27SvSaaxTtLh/8llcHD8vYHT7WSdRZ/jvr4=
 github.com/docker/go-units v0.5.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
-github.com/ebukacodes21/peerbill-trader-api v0.0.0-20241215161818-a577e2b3e2ec h1:eiiDDvQGw7fGIWnDayYXkyoajzRyaW+tJhYV/skb4aU=
-github.com/ebukacodes21/peerbill-trader-api v0.0.0-20241215161818-a577e2b3e2ec/go.mod h1:DYdQ0S/pzBFvtQQ5XB/oe3noZ4Oh6cMyex3OC9sXUG4=
+github.com/ebukacodes21/peerbill-trader-api v0.0.0-20241217172618-1880d8b94fb5 h1:6WcziCBEX2hsDcqlMeI+RGgNPKTDIqB0MScgHlXGoaU=
+github.com/ebukacodes21/peerbill-trader-api v0.0.0-20241217172618-1880d8b94fb5/go.mod h1:DYdQ0S/pzBFvtQQ5XB/oe3noZ4Oh6cMyex3OC9sXUG4=
 github.com/ethereum/c-kzg-4844 v1.0.0 h1:0X1LBXxaEtYD9xsyj9B9ctQEZIpnvVDeoBx8aHEwTNA=
 github.com/ethereum/c-kzg-4844 v1.0.0/go.mod h1:VewdlzQmpT5QSrVhbBuGoCdFJkpaJlO1aQputP83wc0=
 github.com/ethereum/go-ethereum v1.14.12 h1:8hl57x77HSUo+cXExrURjU/w1VhL+ShCTJrTwcCQSe4=
